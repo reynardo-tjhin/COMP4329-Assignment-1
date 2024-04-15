@@ -17,16 +17,6 @@ from sklearn.metrics import accuracy_score
 
 def main(args: argparse.Namespace):
 
-    # print(args.batch_size, type(args.batch_size))
-    # print(args.epochs, type(args.epochs))
-    # print(args.optimizer, type(args.optimizer))
-    # print(args.learning_rate, type(args.learning_rate))
-    # print(args.momentum, type(args.momentum))
-    # print(args.weight_decay, type(args.weight_decay))
-    # print(args.loss_function, type(args.loss_function))
-    # print(args.preprocessing, type(args.preprocessing))
-    # print(args.model, type(args.model))
-
     # get dataset
     X_train = np.load("./dataset/train_data.npy")
     y_train = np.load("./dataset/train_label.npy")
@@ -56,49 +46,6 @@ def main(args: argparse.Namespace):
     print(one_hot_y_train.shape)
     print(X_test.shape)
     print(y_test.shape)
-
-    # create model for dummy dataset
-    # if (args.model == 'default'): # assume default is two hidden layers
-    #     model = MLP(
-    #         layers=[
-    #             Linear(5, 8),
-    #             Activation('relu'),
-    #             Linear(8, 4),
-    #             Activation('relu'),
-    #             Linear(4, 3),
-    #             Activation('tanh'),
-    #         ]
-    #     )
-    # elif (args.model == 'single'):
-    #     model = MLP(
-    #         layers=[
-    #             Linear(5, 4),
-    #             Activation('relu'),
-    #             Linear(4, 3),
-    #             Activation('tanh'),
-    #         ]
-    #     )
-    # elif (args.model == 'dropout'):
-    #     model = MLP(
-    #         layers=[
-    #             Linear(5, 4),
-    #             Activation('relu'),
-    #             Dropout(0.5),
-    #             Linear(4, 3),
-    #             Activation('tanh'),
-    #         ]
-    #     )
-    # elif (args.model == 'batchnorm'):
-    #     model = MLP(
-    #         layers=[
-    #             Linear(5, 4),
-    #             BatchNorm(4),
-    #             Activation('relu'),
-    #             Linear(4, 3),
-    #             BatchNorm(3),
-    #             Activation('tanh'),
-    #         ]
-    #     )
 
     # create model for dataset
     if (args.model == 'default'):

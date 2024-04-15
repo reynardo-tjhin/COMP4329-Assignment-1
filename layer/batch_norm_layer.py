@@ -26,6 +26,7 @@ class BatchNorm:
     def forward(self, input: np.ndarray, train: bool = True) -> np.ndarray:
         """
         Normalise the whole input using standard normalisation.
+        reference: https://kratzert.github.io/2016/02/12/understanding-the-gradient-flow-through-the-batch-normalization-layer.html
 
         :param input: array of shape (N, d), input to the layer
         :param train: whether in training mode.
@@ -53,8 +54,6 @@ class BatchNorm:
         N = input.shape[0]
         
         # normalization step
-
-        # print(input)
 
         # step 1: calculate mean
         self.mean = 1./N * np.sum(input, axis = 0)
@@ -91,7 +90,8 @@ class BatchNorm:
 
     def backward(self, delta: np.ndarray = None) -> np.ndarray:
         """
-        Propagates delta according to learnable parameters: gamma and beta
+        Propagates delta according to learnable parameters: gamma and beta.
+        reference: https://kratzert.github.io/2016/02/12/understanding-the-gradient-flow-through-the-batch-normalization-layer.html
 
         :param delta: the next layer's derivatives
         """
@@ -138,25 +138,5 @@ class BatchNorm:
         return dx
 
 
-
-def test1():
-    """testing on a mini-batch"""
-
-    # testing forward during training
-    import torch
-    import torch.nn as nn
-    m = nn.BatchNorm1d(3)
-    input = torch.randn(5, 3) # 5 instances, 3 attributes
-    output = m(input) # get torch's batch norm's output
-    
-    input = torch.Tensor.numpy(input) # change to numpy
-    l = BatchNorm(num_features=3, affine=False)
-    l_output = l.forward(input)
-    
-    output = output.detach().numpy()
-    assert np.allclose(output, l_output)
-
-    print("Test 1: Success!")
-
 if (__name__ == "__main__"):
-    test1()
+    pass

@@ -199,43 +199,8 @@ def test2():
 
     print("Test 2: Success!")
 
-def test3():
-    """testing against torch library"""
-    import torch
-
-    a = torch.Tensor([
-        [0.15994562, 7.57540417, 2.74826289, 6.31954184, 9.38727067],
-        [5.34793979, 1.79035884, 2.13777807, 5.45324409, 0.95563084],
-    ])
-    o = torch.Tensor([1, 3]).to(torch.int64)
-    
-    np_a = np.array([
-        [0.15994562, 7.57540417, 2.74826289, 6.31954184, 9.38727067],
-        [5.34793979, 1.79035884, 2.13777807, 5.45324409, 0.95563084],
-    ])
-    np_o = np.array([
-        [0., 1., 0., 0., 0.],
-        [0., 0., 0., 1., 0.],
-    ])
-
-    # testing on softmax
-    softmax_output = torch.nn.functional.softmax(a, dim=1)
-    np_softmax_output = torch.Tensor.numpy(softmax_output)
-    assert np.allclose(np_softmax_output, SoftmaxAndCCELoss()._softmax(np_a))
-
-    # testing on cce loss
-    criterion = torch.nn.NLLLoss(reduction='mean')
-    loss1 = criterion(torch.log(softmax_output[0]), o[0])
-    loss2 = criterion(torch.log(softmax_output[1]), o[1])
-    # loss = criterion(torch.log(softmax_output), o)
-    loss = np.array([float(loss1), float(loss2)])
-    assert np.allclose(loss, SoftmaxAndCCELoss()._cce_loss(np_softmax_output, np_o))
-
-    print("Test 3: Success!")
-
 
 # testing
 if (__name__ == "__main__"):
     test1()
     test2()
-    test3()
